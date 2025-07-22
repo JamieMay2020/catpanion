@@ -3,222 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>catpanion.exe</title>
+    <title>catpanion ai</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
             background-color: #0a0a0a;
-            color: #cccccc;
-            font-family: 'Courier New', monospace;
+            color: #d4d4d4;
+            font-family: 'VT323', 'Courier New', monospace;
             margin: 0;
             padding: 20px;
             overflow: hidden;
             cursor: crosshair;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 900px;
+            height: calc(100vh - 40px);
             margin: 0 auto;
-            height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            background-color: #0a0a0a;
+            border: 2px solid #333;
+            padding: 30px;
         }
         
         .header {
             text-align: center;
             margin-bottom: 20px;
-            animation: flicker 0.5s infinite alternate;
+            position: relative;
         }
         
-        @keyframes flicker {
-            0% { opacity: 1; }
-            100% { opacity: 0.8; }
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: 8px;
+            color: #fff;
         }
         
         .ascii-cat {
-            font-size: 10px;
+            font-size: 16px;
             line-height: 1;
             white-space: pre;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            color: #999;
             margin: 20px 0;
         }
         
+        .version-info {
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+        
         .info-box {
-            font-size: 11px;
-            line-height: 1.2;
+            font-size: 14px;
+            line-height: 1.4;
             white-space: pre;
-            color: #888888;
-            border: 1px solid #444444;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 600px;
+            color: #888;
+            border: 1px dashed #444;
+            padding: 20px;
+            margin: 0 auto 20px;
             background-color: #0a0a0a;
             text-align: left;
+            position: relative;
         }
         
         .chat-window {
-            border: 1px solid #666666;
+            border: 1px solid #333;
             flex-grow: 1;
-            padding: 10px;
+            padding: 20px;
             overflow-y: auto;
             background-color: #000;
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+            margin-bottom: 15px;
+            position: relative;
+            font-size: 18px;
+        }
+        
+        .chat-window::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        .chat-window::-webkit-scrollbar-track {
+            background: #111;
+            border: 1px solid #333;
+        }
+        
+        .chat-window::-webkit-scrollbar-thumb {
+            background: #333;
+            border: 1px solid #444;
+        }
+        
+        .chat-window::-webkit-scrollbar-thumb:hover {
+            background: #444;
         }
         
         .message {
-            margin: 5px 0;
-            padding: 5px;
-            animation: glitch 0.3s ease-out;
-        }
-        
-        @keyframes glitch {
-            0% { transform: translateX(2px); }
-            50% { transform: translateX(-2px); }
-            100% { transform: translateX(0); }
+            margin: 8px 0;
+            padding: 8px;
+            position: relative;
         }
         
         .user-message {
-            color: #ffffff;
+            color: #aaa;
+            padding-left: 20px;
+        }
+        
+        .user-message::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #666;
         }
         
         .cat-message {
-            color: #ffffff;
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 15px;
+            position: relative;
         }
         
         input {
             flex-grow: 1;
             background-color: #000;
-            border: 1px solid #666666;
-            color: #cccccc;
-            padding: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 15px 20px;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 18px;
+            transition: all 0.3s;
+            letter-spacing: 1px;
         }
         
         input:focus {
             outline: none;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-color: #666;
+            background-color: #111;
         }
         
         button {
             background-color: #000;
-            border: 1px solid #666666;
-            color: #cccccc;
-            padding: 10px 20px;
-            font-family: 'Courier New', monospace;
+            border: 1px solid #444;
+            color: #ccc;
+            padding: 15px 30px;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
         
         button:hover {
-            background-color: #333333;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            background-color: #222;
+            color: #fff;
+            border-color: #666;
         }
         
-        .status {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 12px;
-            color: #666666;
-            opacity: 0.7;
-        }
-        
-        .input-area {
-            display: flex;
-            margin-top: 10px;
-            gap: 10px;
-        }
-        
-        /* Glitch effect */
-        .glitch {
-            position: relative;
-        }
-        
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .glitch::before {
-            animation: glitch-1 0.5s infinite;
-            color: #cccccc;
-            z-index: -1;
-        }
-        
-        .glitch::after {
-            animation: glitch-2 0.5s infinite;
-            color: #888888;
-            z-index: -2;
-        }
-        
-        @keyframes glitch-1 {
-            0% { clip: rect(44px, 450px, 56px, 0); }
-            100% { clip: rect(16px, 450px, 88px, 0); }
-        }
-        
-        @keyframes glitch-2 {
-            0% { clip: rect(65px, 450px, 119px, 0); }
-            100% { clip: rect(88px, 450px, 26px, 0); }
+        button:active {
+            background-color: #111;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="glitch" data-text="catpanion.exe">catpanion.exe</h1>
+            <h1>CATPANION AI</h1>
             <div class="ascii-cat">
      /\_/\  
     ( o.o ) 
      > ^ <  
     /|_|_|\ 
             </div>
-            <p style="font-size: 12px; opacity: 0.7;">version 1.0.0 | status: online</p>
+            <p class="version-info">VERSION 1.0.0 // STATUS: ONLINE</p>
         </div>
         
         <div class="info-box">
-╔════════════════════════════════════════════════════════════╗
-║                                                            ║
-║  CATPANION v1.0 - ARTIFICIAL FELINE INTELLIGENCE          ║
-║  --------------------------------------------------------  ║
-║                                                            ║
-║  > what is catpanion?                                      ║
-║    catpanion is an advanced AI companion that responds    ║
-║    exclusively in the universal feline language.           ║
-║                                                            ║
-║  > capabilities:                                           ║
-║    - understands all human input                           ║
-║    - responds with contextually appropriate meows          ║
-║    - provides emotional support through purring protocols  ║
-║                                                            ║
-║  > warning:                                                ║
-║    prolonged exposure may result in increased affinity     ║
-║    for cardboard boxes and laser pointers                  ║
-║                                                            ║
-╚════════════════════════════════════════════════════════════╝
+CATPANION AI v1.0
+--------------------------------------------------------
+
+> what is catpanion ai?
+  catpanion ai is an advanced artificial intelligence
+  that responds exclusively in the universal feline language.
+
+> capabilities:
+  - neural network trained on millions of meows
+  - contextual response generation
+  - real-time language processing
+  - emotional pattern recognition
         </div>
         
         <div class="chat-window" id="chatWindow">
         </div>
         
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="type your message..." autofocus>
-            <button onclick="sendMessage()">send</button>
+            <input type="text" id="userInput" placeholder="TYPE YOUR MESSAGE..." autofocus>
+            <button onclick="sendMessage()">SEND</button>
         </div>
-        
-        <div class="status" id="status">connected to catpanion server...</div>
     </div>
 
     <script>
         const chatWindow = document.getElementById('chatWindow');
         const userInput = document.getElementById('userInput');
-        const status = document.getElementById('status');
         
         // Random meow generator
         function generateMeows() {
@@ -234,14 +232,11 @@
             // Add user message
             const userMsg = document.createElement('div');
             userMsg.className = 'message user-message';
-            userMsg.textContent = '> ' + message;
+            userMsg.textContent = message;
             chatWindow.appendChild(userMsg);
             
             // Clear input
             userInput.value = '';
-            
-            // Update status
-            status.textContent = 'processing...';
             
             // Cat responds after a delay
             setTimeout(() => {
@@ -252,17 +247,6 @@
                 
                 // Scroll to bottom
                 chatWindow.scrollTop = chatWindow.scrollHeight;
-                
-                // Update status
-                status.textContent = 'catpanion is listening...';
-                
-                // Random glitch effect
-                if (Math.random() > 0.7) {
-                    document.body.style.filter = 'invert(100%)';
-                    setTimeout(() => {
-                        document.body.style.filter = 'none';
-                    }, 100);
-                }
             }, 500 + Math.random() * 1000);
         }
         
@@ -272,31 +256,6 @@
                 sendMessage();
             }
         });
-        
-        // Random status updates
-        setInterval(() => {
-            const messages = [
-                'catpanion is listening...',
-                'connection stable...',
-                'meow protocol active...',
-                'feline interface ready...',
-                'purr engine running...'
-            ];
-            if (Math.random() > 0.8) {
-                status.textContent = messages[Math.floor(Math.random() * messages.length)];
-            }
-        }, 3000);
-        
-        // Occasional random meows
-        setInterval(() => {
-            if (Math.random() > 0.95) {
-                const catMsg = document.createElement('div');
-                catMsg.className = 'message cat-message';
-                catMsg.textContent = 'meow';
-                chatWindow.appendChild(catMsg);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
-        }, 10000);
     </script>
 </body>
 </html>
